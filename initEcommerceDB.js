@@ -2,7 +2,8 @@
 // MongoDB Playground
 // Use Ctrl+Space inside a snippet or a string literal to trigger completions.
 
-db = db.getSiblingDB('ecommerce_db');  // Switch to ecommerce_db
+// Select the database to use.
+use('ecommerce_db');
 
 // 1️⃣ Users Collection with Validation
 db.createCollection("users", {
@@ -48,7 +49,7 @@ db.createCollection("products", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["name", "price", "stock", "category", "brand"],
+      required: ["name", "price", "stock", "category", "brand","images"],
       properties: {
         name: {
           bsonType: "string",
@@ -143,6 +144,10 @@ db.createCollection("payments", {
           bsonType: "objectId",
           description: "User who made the payment"
         },
+        orderId: {
+          bsonType: "objectId",
+          description: "User who made the payment"
+        },
         amount: {
           bsonType: "double",
           minimum: 0,
@@ -152,6 +157,11 @@ db.createCollection("payments", {
           bsonType: "string",
           enum: ["pending", "completed", "failed"],
           description: "Payment status"
+        },
+        type: {
+          bsonType: "string",
+          enum: ["creditcard", "applepay", "banktransfer"],
+          description: "Payment Type"
         },
         createdAt: {
           bsonType: "date",
